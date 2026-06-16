@@ -14,10 +14,11 @@ check: build
 install: build
     cp themes/black-metal.json ~/.config/zed/themes/black-metal.json
 
-# tag a release (vX.Y.Z) and push it — triggers the publish workflow
-release tag:
+# tag a release (vX.Y.Z), push it (triggers publish), and attach the theme to a GitHub release
+release tag: build
     git tag -a "{{ tag }}" -m "{{ tag }}"
     git push origin "{{ tag }}"
+    gh release create "{{ tag }}" themes/black-metal.json --title "{{ tag }}" --generate-notes
 
 # remove generated output
 clean:

@@ -15,6 +15,10 @@
 3. Search for the _Black Metal_ extension and install.
 4. Enter _theme selector: toggle_ and pick a variant.
 
+### Manual
+
+Prefer not to use the extension store? Download `black-metal.json` from the [latest release](https://github.com/alvgaona/zed-black-metal/releases/latest) into `~/.config/zed/themes/`, then run _theme selector: toggle_.
+
 ## Development
 
 `themes/black-metal.json` is generated. Edit `src/base.json` or drop a palette in `palettes/`, then run `just build`. Test with _zed: install dev extension_. See the [Zed docs](https://zed.dev/docs/extensions/developing-extensions).
