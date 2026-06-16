@@ -29,7 +29,7 @@
 &nbsp;
 
 <p align="center">
-	Ported from <a href="https://github.com/metalelf0/base16-black-metal">base16-black-metal</a> by metalelf0
+	Ported from <a href="https://github.com/metalelf0/base16-black-metal-scheme">base16-black-metal-scheme</a> by metalelf0
 </p>
 
 <p align="center">

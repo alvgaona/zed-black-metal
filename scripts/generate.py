@@ -2,12 +2,15 @@
 """Generate the Black Metal theme family for Zed.
 
 The upstream base16 "black-metal" family (by metalelf0) is a set of band-named
-variants that share one pitch-black palette and differ in exactly two accent
-slots: base0B (strings / additions) and base0A (types / modified). This script
+schemes that share one pitch-black palette and differ in exactly two slots:
+``base0B`` (strings / additions) and ``base0A`` (types / modified). This script
 mirrors that: it takes the two canonical base themes in ``src/base.json``
 (an opaque variant and a frosted "Blurred" variant) and derives one of each per
-band by swapping those two colors, reading them from the vendored Warp palettes
-in ``palettes/``.
+band by swapping those two colors, reading them from the vendored base16 scheme
+files in ``palettes/``.
+
+The palettes are the upstream scheme files, vendored verbatim from
+https://github.com/metalelf0/base16-black-metal-scheme.
 
 Run it with ``just build`` (or ``python3 scripts/generate.py``). The output,
 ``themes/black-metal.json``, is the file Zed loads — do not edit it by hand.
@@ -25,7 +28,7 @@ PALETTES = ROOT / "palettes"
 SRC = ROOT / "src" / "base.json"
 OUT = ROOT / "themes" / "black-metal.json"
 
-# The two accent slots that vary between bands, as they appear in src/base.json.
+# The two scheme slots that vary between bands, as they appear in src/base.json.
 BASE0B_GREEN = "#dd9999"   # strings, additions, links
 BASE0A_YELLOW = "#a06666"  # types, enums, modified/warning
 
@@ -34,30 +37,18 @@ FAMILY = "Black Metal"
 AUTHOR = "alvgaona"
 
 
-def parse_palette(path: Path) -> dict[str, str]:
-    """Parse a flat Warp base16 YAML into a {key: '#rrggbb'} map.
+def parse_scheme(path: Path) -> dict[str, str]:
+    """Parse a base16 scheme YAML into a {'base0A': '#rrggbb', ...} map.
 
-    Nested terminal colors are flattened to 'normal.green', 'bright.black', etc.
+    Scheme files store colors as 6-digit hex without a leading '#'; this adds it.
     Kept dependency-free on purpose so the generator needs only the stdlib.
     """
-    flat: dict[str, str] = {}
-    section: str | None = None
+    palette: dict[str, str] = {}
     for line in path.read_text().splitlines():
-        if not line.strip():
-            continue
-        indent = len(line) - len(line.lstrip())
-        match = re.match(r'\s*([A-Za-z_]+):\s*"?(#[0-9a-fA-F]{6})?"?\s*$', line)
-        if not match:
-            continue
-        key, value = match.group(1), match.group(2)
-        if value is None:
-            section = key
-        elif indent >= 4 and section in ("bright", "normal"):
-            flat[f"{section}.{key}"] = value.lower()
-        else:
-            section = None
-            flat[key] = value.lower()
-    return flat
+        match = re.match(r'\s*(base0[0-9A-F]):\s*"?([0-9a-fA-F]{6})"?', line)
+        if match:
+            palette[match.group(1)] = "#" + match.group(2).lower()
+    return palette
 
 
 def swap(node, mapping: dict[str, str]):
@@ -87,14 +78,16 @@ def main() -> None:
 
     themes = [copy.deepcopy(opaque), copy.deepcopy(blurred)]
 
-    for path in sorted(PALETTES.glob("base16_black_metal_*.yaml")):
-        slug = path.stem.replace("base16_black_metal_", "")
-        palette = parse_palette(path)
+    # palettes/black-metal.yaml is the base scheme (already baked into src/base.json);
+    # the band schemes are black-metal-<band>.yaml.
+    for path in sorted(PALETTES.glob("black-metal-*.yaml")):
+        slug = path.stem[len("black-metal-"):]
+        palette = parse_scheme(path)
         mapping = {
-            BASE0B_GREEN: palette["normal.green"],
-            BASE0A_YELLOW: palette["normal.yellow"],
+            BASE0B_GREEN: palette["base0B"],
+            BASE0A_YELLOW: palette["base0A"],
         }
-        label = f"{FAMILY} ({slug.replace('_', ' ').title()})"
+        label = f"{FAMILY} ({slug.replace('-', ' ').title()})"
         themes.append(derive(opaque, label, mapping))
         themes.append(derive(blurred, f"{label} Blurred", mapping))
 
