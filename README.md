@@ -19,9 +19,6 @@
 3. Search for the _Black Metal_ extension and install.
 4. Enter _theme selector: toggle_ and pick a variant.
 
-> [!NOTE]
-> Switching to or from a **Blurred** variant requires a full Zed restart.
-
 ## Development
 
 `themes/black-metal.json` is generated. Edit `src/base.json` or drop a palette in `palettes/`, then run `just build`. Test with _zed: install dev extension_. See the [Zed docs](https://zed.dev/docs/extensions/developing-extensions).
