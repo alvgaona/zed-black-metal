@@ -1,15 +1,11 @@
-<h3 align="center">
-	Black Metal for <a href="https://zed.dev/">Zed</a>
-</h3>
+<p align="center">
+	<img src="assets/zed-black-metal-banner.png" width="100%" alt="Black Metal — pitch-black base16 themes for Zed" />
+</p>
 
 <p align="center">
 	<a href="https://github.com/alvgaona/zed-black-metal/stargazers"><img src="https://img.shields.io/github/stars/alvgaona/zed-black-metal?colorA=000000&colorB=c1c1c1&style=for-the-badge"></a>
 	<a href="https://github.com/alvgaona/zed-black-metal/issues"><img src="https://img.shields.io/github/issues/alvgaona/zed-black-metal?colorA=000000&colorB=a06666&style=for-the-badge"></a>
 	<a href="https://github.com/alvgaona/zed-black-metal/contributors"><img src="https://img.shields.io/github/contributors/alvgaona/zed-black-metal?colorA=000000&colorB=dd9999&style=for-the-badge"></a>
-</p>
-
-<p align="center">
-	Pitch-black base16 Black Metal themes — 11 band variants, each with a frosted <b>Blurred</b> companion.
 </p>
 
 ## Usage
