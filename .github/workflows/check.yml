@@ -1,0 +1,21 @@
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  themes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Regenerate themes
+        run: python3 scripts/generate.py
+      - name: Fail if committed themes are stale
+        run: git diff --exit-code themes/black-metal.json
+      - name: Validate theme JSON
+        run: python3 -c "import json; json.load(open('themes/black-metal.json'))"

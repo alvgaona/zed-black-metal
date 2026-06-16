@@ -1,0 +1,7 @@
+id = "black-metal"
+name = "Black Metal"
+schema_version = 1
+version = "0.1.0"
+authors = ["alvgaona <alvgaona@gmail.com>"]
+description = "Pitch-black base16 Black Metal themes for Zed, with frosted-glass blurred variants"
+repository = "https://github.com/alvgaona/black-metal"

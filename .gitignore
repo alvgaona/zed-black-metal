@@ -1,0 +1,5 @@
+**/.DS_Store
+
+# Local agent context — not part of the published extension
+.claude/
+CLAUDE.md
